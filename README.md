@@ -30,15 +30,18 @@
 
 Для запуска приложения:
 
-1. Установить зависимости
+1. Установить зависимости `pip install -r req.txt`
 2. Запустить приложение
 
 ```bash
- pip install -r req.txt
- uvicorn main:app --reload
+uvicorn main:app --reload
 ```
 
-Для запуска тестов:  
+Для запуска тестов:
+
 ```bash
 pytest -p no:traceback -W ignore
 ```
+
+Для получения swagger перейдите по  
+http://127.0.0.1:8000/docs
