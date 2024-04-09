@@ -6,10 +6,7 @@ import db
 from db import Genre, Book
 from dependencies import get_db
 
-SessionLocal = db.SessionLocal
-engine = db.engine
-
-db.Base.metadata.create_all(bind=engine)
+db.Base.metadata.create_all(bind=db.engine)
 
 app = FastAPI()
 
@@ -18,11 +15,10 @@ app = FastAPI()
 @app.get("/books/")
 def get_books(search: str | None = None, session: Session = Depends(get_db)):
     """ Get all books """
+    query = session.query(Book)
     if search:
-        books = session.query(Book).filter(Book.title.ilike(f"%{search}%") | Book.author.ilike(f"%{search}%")).all()
-    else:
-        books = session.query(Book).all()
-    return books
+        query = query.filter(Book.title.ilike(f"%{search}%") | Book.author.ilike(f"%{search}%"))
+    return query.all()
 
 
 @app.get("/genres/")
